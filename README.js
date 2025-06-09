@@ -1135,7 +1135,7 @@ function modifyCode(text) {
 	if (publicUrl == "scripturl") {
 		if (navigator.userAgent.indexOf("Firefox") != -1) {
 			window.addEventListener("beforescriptexecute", function(e) {
-				if (e.target.src.includes("https://miniblox.io//assets/index-C0r91HPd.js")) {
+				if (e.target.src.includes("https://miniblox.io/assets/index-BL4-IeYU.js")) {
 					e.preventDefault();
 					e.stopPropagation();
 					execute(e.target.src);
