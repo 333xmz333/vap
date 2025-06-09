@@ -1,7 +1,7 @@
 let replacements = {};
 let dumpedVarNames = {};
 const storeName = "a" + crypto.randomUUID().replaceAll("-", "").substring(16);
-const xmzName = crypto.randomUUID().replaceAll("-", "").substring(16);
+const vapeName = crypto.randomUUID().replaceAll("-", "").substring(16);
 
 // ANTICHEAT HOOK
 function replaceAndCopyFunction(oldFunc, newFunc) {
@@ -118,19 +118,19 @@ function modifyCode(text) {
 		});
 	`);
 
-	addReplacement('VERSION$1," | ",', `"${xmzName} v1.0.5"," | ",`);
+	addReplacement('VERSION$1," | ",', `"${vapeName} v1.0.5"," | ",`);
 	addReplacement('if(!nt.canConnect){', 'nt.errorMessage = nt.errorMessage == "Could not join server. You are connected to a VPN or proxy. Please disconnect from it and refresh the page." ? "You\'re either using a detected VPN server or IP banned for cheating." : nt.errorMessage;');
 
 	// DRAWING SETUP
 	addReplacement('ut(this,"glintTexture");', `
-		ut(this, "xmzTexture");
+		ut(this, "vapeTexture");
 		ut(this, "v4Texture");
 	`);
-	addReplacement('skinManager.loadTextures(),', ',this.loadxmz(),');
+	addReplacement('skinManager.loadTextures(),', ',this.loadVape(),');
 	addReplacement('async loadSpritesheet(){', `
-		async loadxmz() {
-			this.xmzTexture = await this.loader.loadAsync("https://raw.githubusercontent.com/7GrandDadPGN/xmzForMiniblox/main/assets/logo.png");
-			this.v4Texture = await this.loader.loadAsync("https://raw.githubusercontent.com/7GrandDadPGN/xmzForMiniblox/main/assets/logov4.png");
+		async loadVape() {
+			this.vapeTexture = await this.loader.loadAsync("https://raw.githubusercontent.com/7GrandDadPGN/VapeForMiniblox/main/assets/logo.png");
+			this.v4Texture = await this.loader.loadAsync("https://raw.githubusercontent.com/7GrandDadPGN/VapeForMiniblox/main/assets/logov4.png");
 		}
 		async loadSpritesheet(){
 	`, true);
@@ -161,7 +161,7 @@ function modifyCode(text) {
 			const posY = 17;
 			ctx$3.imageSmoothingEnabled = true;
 			ctx$3.imageSmoothingQuality = "high";
-			drawImage(ctx$3, textureManager.xmzTexture.image, posX, posY, 80, 21, \`HSL(\${(colorOffset % 1) * 360}, 100%, 50%)\`);
+			drawImage(ctx$3, textureManager.vapeTexture.image, posX, posY, 80, 21, \`HSL(\${(colorOffset % 1) * 360}, 100%, 50%)\`);
 			drawImage(ctx$3, textureManager.v4Texture.image, posX + 81, posY + 1, 33, 18);
 
 			let offset = 0;
@@ -355,7 +355,7 @@ function modifyCode(text) {
 		if (_ == "GrandDad") {
 			const $ = skins[_];
 			return new Promise((et, tt) => {
-				textureManager.loader.load("https://raw.githubusercontent.com/7GrandDadPGN/xmzForMiniblox/main/assets/skin.png", rt => {
+				textureManager.loader.load("https://raw.githubusercontent.com/7GrandDadPGN/VapeForMiniblox/main/assets/skin.png", rt => {
 					const nt = {
 						atlas: rt,
 						id: _,
@@ -373,7 +373,7 @@ function modifyCode(text) {
 		if (_ == "GrandDad") {
 			const $ = capes[_];
 			return new Promise((et, tt) => {
-				textureManager.loader.load("https://raw.githubusercontent.com/7GrandDadPGN/xmzForMiniblox/main/assets/cape.png", rt => {
+				textureManager.loader.load("https://raw.githubusercontent.com/7GrandDadPGN/VapeForMiniblox/main/assets/cape.png", rt => {
 					const nt = {
 						atlas: rt,
 						id: _,
@@ -463,20 +463,20 @@ function modifyCode(text) {
 				if (args.length > 1) {
 					switch (args[1]) {
 						case "save":
-							globalThis.${storeName}.savexmzConfig(args[2]);
+							globalThis.${storeName}.saveVapeConfig(args[2]);
 							game$1.chat.addChat({text: "Saved config " + args[2]});
 							break;
 						case "load":
-							globalThis.${storeName}.savexmzConfig();
-							globalThis.${storeName}.loadxmzConfig(args[2]);
+							globalThis.${storeName}.saveVapeConfig();
+							globalThis.${storeName}.loadVapeConfig(args[2]);
 							game$1.chat.addChat({text: "Loaded config " + args[2]});
 							break;
 						case "import":
-							globalThis.${storeName}.importxmzConfig(args[2]);
+							globalThis.${storeName}.importVapeConfig(args[2]);
 							game$1.chat.addChat({text: "Imported config"});
 							break;
 						case "export":
-							globalThis.${storeName}.exportxmzConfig();
+							globalThis.${storeName}.exportVapeConfig();
 							game$1.chat.addChat({text: "Config set to clipboard!"});
 							break;
 					}
@@ -1041,7 +1041,7 @@ function modifyCode(text) {
 			new Module("AutoQueue", function() {});
 			new Module("AutoVote", function() {});
 			const chatdisabler = new Module("ChatDisabler", function() {});
-			chatdisablermsg = chatdisabler.addoption("Message", String, "youtube.com/c/7GrandDadxmz");
+			chatdisablermsg = chatdisabler.addoption("Message", String, "youtube.com/c/7GrandDadVape");
 			new Module("FilterBypass", function() {});
 
 			const survival = new Module("SurvivalMode", function(callback) {
@@ -1056,7 +1056,7 @@ function modifyCode(text) {
 		})();
 	`);
 
-	async function savexmzConfig(profile) {
+	async function saveVapeConfig(profile) {
 		if (!loadedConfig) return;
 		let saveList = {};
 		for(const [name, module] of Object.entries(unsafeWindow.globalThis[storeName].modules)) {
@@ -1065,15 +1065,15 @@ function modifyCode(text) {
 				saveList[name].options[option] = setting[1];
 			}
 		}
-		GM_setValue("xmzConfig" + (profile ?? unsafeWindow.globalThis[storeName].profile), JSON.stringify(saveList));
-		GM_setValue("mainxmzConfig", JSON.stringify({profile: unsafeWindow.globalThis[storeName].profile}));
+		GM_setValue("vapeConfig" + (profile ?? unsafeWindow.globalThis[storeName].profile), JSON.stringify(saveList));
+		GM_setValue("mainVapeConfig", JSON.stringify({profile: unsafeWindow.globalThis[storeName].profile}));
 	};
 
-	async function loadxmzConfig(switched) {
+	async function loadVapeConfig(switched) {
 		loadedConfig = false;
-		const loadedMain = JSON.parse(await GM_getValue("mainxmzConfig", "{}")) ?? {profile: "default"};
+		const loadedMain = JSON.parse(await GM_getValue("mainVapeConfig", "{}")) ?? {profile: "default"};
 		unsafeWindow.globalThis[storeName].profile = switched ?? loadedMain.profile;
-		const loaded = JSON.parse(await GM_getValue("xmzConfig" + unsafeWindow.globalThis[storeName].profile, "{}"));
+		const loaded = JSON.parse(await GM_getValue("vapeConfig" + unsafeWindow.globalThis[storeName].profile, "{}"));
 		if (!loaded) {
 			loadedConfig = true;
 			return;
@@ -1095,15 +1095,15 @@ function modifyCode(text) {
 		loadedConfig = true;
 	};
 
-	async function exportxmzConfig() {
-		navigator.clipboard.writeText(await GM_getValue("xmzConfig" + unsafeWindow.globalThis[storeName].profile, "{}"));
+	async function exportVapeConfig() {
+		navigator.clipboard.writeText(await GM_getValue("vapeConfig" + unsafeWindow.globalThis[storeName].profile, "{}"));
 	};
 
-	async function importxmzConfig() {
+	async function importVapeConfig() {
 		const arg = await navigator.clipboard.readText();
 		if (!arg) return;
-		GM_setValue("xmzConfig" + unsafeWindow.globalThis[storeName].profile, arg);
-		loadxmzConfig();
+		GM_setValue("vapeConfig" + unsafeWindow.globalThis[storeName].profile, arg);
+		loadVapeConfig();
 	};
 
 	let loadedConfig = false;
@@ -1120,13 +1120,13 @@ function modifyCode(text) {
 				}
 			}, 10);
 		});
-		unsafeWindow.globalThis[storeName].savexmzConfig = savexmzConfig;
-		unsafeWindow.globalThis[storeName].loadxmzConfig = loadxmzConfig;
-		unsafeWindow.globalThis[storeName].exportxmzConfig = exportxmzConfig;
-		unsafeWindow.globalThis[storeName].importxmzConfig = importxmzConfig;
-		loadxmzConfig();
+		unsafeWindow.globalThis[storeName].saveVapeConfig = saveVapeConfig;
+		unsafeWindow.globalThis[storeName].loadVapeConfig = loadVapeConfig;
+		unsafeWindow.globalThis[storeName].exportVapeConfig = exportVapeConfig;
+		unsafeWindow.globalThis[storeName].importVapeConfig = importVapeConfig;
+		loadVapeConfig();
 		setInterval(async function() {
-			savexmzConfig();
+			saveVapeConfig();
 		}, 10000);
 	}
 
@@ -1135,7 +1135,7 @@ function modifyCode(text) {
 	if (publicUrl == "scripturl") {
 		if (navigator.userAgent.indexOf("Firefox") != -1) {
 			window.addEventListener("beforescriptexecute", function(e) {
-				if (e.target.src.includes("https://miniblox.io/assets/index")) {
+				if (e.target.src.includes("https://miniblox.io//assets/index-C0r91HPd.js")) {
 					e.preventDefault();
 					e.stopPropagation();
 					execute(e.target.src);
